@@ -78,3 +78,4 @@ def pytest_configure(config):
         config._metadata["Role"] = "Test Automation / SDET / AI Engineer"
         config._metadata["Organization"] = "Capgemini Exceller Program"
         config._metadata["Tech Stack"] = "Python, Pytest, Playwright, Requests, Gemini AI, SQLite"
+

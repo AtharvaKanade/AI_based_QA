@@ -98,11 +98,11 @@ AI-QA-Framework/
 ├── app/
 │   └── sample_api/
 │       └── app.py                  # System Under Test (Flask REST API)
+├── conftest.py                 # Root Pytest fixtures, test server, report setup
 ├── data/
 │   ├── seed_data.py                # Database schema, seeding & SQL queries
 │   └── test_data.db                # SQLite test database
 ├── tests/
-│   ├── conftest.py                 # Pytest fixtures, test server, report setup
 │   ├── api/                        # REST API Test Suites
 │   │   ├── test_users_api.py
 │   │   └── test_products_api.py
