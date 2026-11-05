@@ -16,13 +16,20 @@ class InventoryPage(BasePage):
         self.menu_button = page.locator("#react-burger-menu-btn")
         self.logout_link = page.locator("#logout_sidebar_link")
 
+    def wait_for_inventory_loaded(self):
+        """Wait for inventory list to be visible in DOM."""
+        expect(self.inventory_items.first).to_be_visible()
+
     def get_items_count(self) -> int:
+        self.wait_for_inventory_loaded()
         return self.inventory_items.count()
 
     def add_first_product_to_cart(self):
+        self.wait_for_inventory_loaded()
         self.inventory_items.first.locator("button").click()
 
     def add_product_by_name(self, product_name: str):
+        self.wait_for_inventory_loaded()
         item = self.inventory_items.filter(has_text=product_name)
         item.locator("button").click()
 
@@ -31,6 +38,7 @@ class InventoryPage(BasePage):
 
     def sort_by(self, option_value: str):
         # Options: 'az' (A to Z), 'za' (Z to A), 'lohi' (low to high), 'hilo' (high to low)
+        self.wait_for_inventory_loaded()
         self.sort_select.select_option(option_value)
 
     def go_to_cart(self):
@@ -39,4 +47,3 @@ class InventoryPage(BasePage):
     def logout(self):
         self.menu_button.click()
         self.logout_link.click()
-

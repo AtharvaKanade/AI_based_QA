@@ -10,18 +10,19 @@ from tests.ui.pages.inventory_page import InventoryPage
 
 @pytest.fixture(autouse=True)
 def logged_in_session(page: Page):
-    """Fixture to ensure user is logged in before each inventory test."""
+    """Fixture to ensure user is logged in and inventory is loaded before each inventory test."""
     login_page = LoginPage(page).open()
     login_page.login("standard_user", "secret_sauce")
     expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+    expect(page.locator(".inventory_item").first).to_be_visible()
 
 
 @pytest.mark.ui
 @pytest.mark.smoke
 def test_inventory_displays_products(page: Page):
-    """Verify catalog displays all 6 expected standard items."""
+    """Verify catalog displays all 6 expected standard items using auto-waiting assertion."""
     inventory = InventoryPage(page)
-    assert inventory.get_items_count() == 6
+    expect(inventory.inventory_items).to_have_count(6)
 
 
 @pytest.mark.ui
@@ -50,4 +51,3 @@ def test_user_logout_flow(page: Page):
     inventory = InventoryPage(page)
     inventory.logout()
     expect(page).to_have_url("https://www.saucedemo.com/")
-
