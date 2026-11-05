@@ -1,0 +1,56 @@
+name: AI-Augmented Test Automation CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  quality-engineering-suite:
+    name: Run Quality Engineering & AI Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright Browsers & Dependencies
+        run: |
+          playwright install chromium --with-deps
+
+      - name: Seed Test SQLite Database
+        run: |
+          python data/seed_data.py
+
+      - name: Generate AI Test Cases (CI Automation)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python ai_engine/test_generator.py
+
+      - name: Execute Full Test Suite (Pytest + Playwright + API)
+        run: |
+          mkdir -p reports
+          pytest --html=reports/report.html --self-contained-html
+
+      - name: Upload HTML Test Report Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: capgemini-qa-test-report
+          path: reports/report.html
+          retention-days: 14
+
