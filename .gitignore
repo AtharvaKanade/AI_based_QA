@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Testing & Reports
+.pytest_cache/
+reports/*.html
+reports/assets/
+.coverage
+htmlcov/
+
+# Databases & Environment
+*.db
+*.sqlite3
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
