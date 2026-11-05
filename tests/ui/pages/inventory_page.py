@@ -46,4 +46,5 @@ class InventoryPage(BasePage):
 
     def logout(self):
         self.menu_button.click()
+        expect(self.logout_link).to_be_visible()
         self.logout_link.click()

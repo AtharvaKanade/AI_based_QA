@@ -38,6 +38,7 @@ def test_sort_products_low_to_high(page: Page):
     """Verify product sorting by Price (low to high)."""
     inventory = InventoryPage(page)
     inventory.sort_by("lohi")
+    expect(page.locator(".inventory_item_price").first).to_have_text("$7.99")
 
     # Extract all prices and verify ascending order
     price_elements = page.locator(".inventory_item_price").all_inner_texts()
